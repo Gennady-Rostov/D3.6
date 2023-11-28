@@ -1,0 +1,43 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+   <h1>Все новости</h1>
+    <h3>{{ time_now|date:'d M Y' }}</h3>
+   <h3> {{ next_sale|default_if_none:"Скоро состоиться выступление Илона Маска!" }} </h3>
+    <h3>Общее количество всех новостей: {{news|length}}</h3>
+   <hr>
+   {% if news %}
+       <table>
+           <tr>
+               <td>Автор</td>
+               <td>Категория новости</td>
+               <td>Дата публикации</td>
+               <td>Тема</td>
+               <td>Основной текст</td>
+               <td>Рейтинг</td>
+           </tr>
+
+
+           {% for news in news %}
+           <tr>
+               <td>{{ news.author }}</td>
+               <td>{{ news.categoryType }}</td>
+               <td>{{ news.dateCreation }}</td>
+               <td>{{ news.title|censor }}</td>
+               <td>{{ news.text|truncatewords:20 }}</td>
+               <td>{{ news.rating }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
